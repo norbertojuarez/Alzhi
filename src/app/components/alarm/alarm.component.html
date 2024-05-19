@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Agregar Alarma
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-label position="floating">Nombre</ion-label>
+    <ion-input [(ngModel)]="reminder.name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Fecha</ion-label>
+    <ion-datetime [(ngModel)]="reminder.date"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Descripcion</ion-label>
+    <ion-input [(ngModel)]="reminder.additionalData"></ion-input>
+  </ion-item>
+  <ion-button expand="full" (click)="addReminder()">Add Reminder</ion-button>
+</ion-content>

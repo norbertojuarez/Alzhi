@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { ListasComponent } from './listas/listas.component';
+import { AlarmComponent } from './alarm/alarm.component';
 import { PipeModule } from '../pipes/pipe.module';
 
 
 @NgModule({
   declarations: [
-    ListasComponent    
+    ListasComponent,
+    AlarmComponent    
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { PipeModule } from '../pipes/pipe.module';
     PipeModule    
   ],
   exports: [
-    ListasComponent   
+    ListasComponent,
+    AlarmComponent  
   ]
 })
 export class ComponentsModule { }
