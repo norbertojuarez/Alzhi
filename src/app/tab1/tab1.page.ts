@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ListaService } from '../services/lista.service';
-import { Lista } from '../models/lista.model';
 
 @Component({
   selector: 'app-tab1',

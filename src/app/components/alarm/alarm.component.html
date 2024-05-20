@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-item>
     <ion-label position="floating">Nombre</ion-label>
     <ion-input [(ngModel)]="reminder.name"></ion-input>
@@ -19,5 +19,5 @@
     <ion-label position="floating">Descripcion</ion-label>
     <ion-input [(ngModel)]="reminder.additionalData"></ion-input>
   </ion-item>
-  <ion-button expand="full" (click)="addReminder()">Add Reminder</ion-button>
+  <ion-button expand="full" (click)="addReminder()">Agregar</ion-button>
 </ion-content>

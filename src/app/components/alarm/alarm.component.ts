@@ -26,7 +26,7 @@ export class AlarmComponent implements OnInit {
       console.log('Reminder added successfully.');
     }).catch(err => {
       console.error('Error adding reminder:', err);
-    });
+    });    
   }
 
 }
