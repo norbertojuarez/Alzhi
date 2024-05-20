@@ -1,9 +1,10 @@
-// src/app/services/firestore.service.ts
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 import { LocalNotifications } from '@capacitor/local-notifications';
 
+// Se podría separar este servicio y el de alarmas capaz
 export interface Reminder {
   id?: string;
   name: string;
@@ -17,10 +18,9 @@ export interface Reminder {
 export class FirestoreService {
 
   constructor(
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    public toastController:ToastController
   ) { }
-
-  
 
   addReminder(reminder: Reminder): Promise<void> {
     const id = this.firestore.createId(); // Generar un ID único para el documento
@@ -41,6 +41,26 @@ export class FirestoreService {
 
   private async scheduleNotification(id: string, reminder: Reminder) {
     console.log('Scheduling notification for:', reminder.name, 'at:', reminder.date);
+  
+    // Verificar permisos
+    const permissions = await LocalNotifications.checkPermissions();
+    if (permissions.display === 'granted') {
+      // Si los permisos están concedidos, programar la notificación
+      await this.schedule(id, reminder);
+    } else {
+      // Si no, solicitar permisos
+      const requestResult = await LocalNotifications.requestPermissions();
+      if (requestResult.display === 'granted') {
+        // Si los permisos son concedidos después de la solicitud, programar la notificación
+        await this.schedule(id, reminder);
+      } else {
+        // Manejar el caso cuando los permisos no son concedidos
+        console.log('Permission was not granted.');
+      }
+    }
+  }
+
+  private async schedule(id: string, reminder: Reminder) {
     await LocalNotifications.schedule({
       notifications: [
         {
@@ -65,5 +85,14 @@ export class FirestoreService {
       hash = hash & hash;
     }
     return Math.abs(hash);
+  }
+
+  async presentToast(mensage:string) {
+    let toast = await this.toastController.create({
+      message: mensage,
+      duration: 2000
+    });
+
+    toast.present();
   }
 }

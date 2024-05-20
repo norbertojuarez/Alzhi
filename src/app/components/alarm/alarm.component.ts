@@ -23,6 +23,7 @@ export class AlarmComponent implements OnInit {
 
   addReminder() {
     this.firestoreService.addReminder(this.reminder).then(() => {
+      this.firestoreService.presentToast('Alarma creada correctamente!');
       console.log('Reminder added successfully.');
     }).catch(err => {
       console.error('Error adding reminder:', err);
