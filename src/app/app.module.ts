@@ -11,11 +11,13 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AngularFirestoreModule, AngularFireModule.initializeApp(environment.firebaseConfig)],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideFirebaseApp(() => initializeApp({"projectId":"ppii-541b0","appId":"1:1086346302985:web:e2800c9def5ecfbaf48ad8","storageBucket":"ppii-541b0.appspot.com","apiKey":"AIzaSyAHKg149Td_S-KXhtiF6pHoD37fbi1N3F0","authDomain":"ppii-541b0.firebaseapp.com","messagingSenderId":"1086346302985","measurementId":"G-NHYBPS8BC0"})), provideFirestore(() => getFirestore()), provideFirebaseApp(() => initializeApp({"projectId":"alarmas-57c4d","appId":"1:416128595356:web:d6b46af5ae783760be8459","storageBucket":"alarmas-57c4d.appspot.com","apiKey":"AIzaSyBRlKHYkuehStu-uQpn4VN8QFanrsyN3W8","authDomain":"alarmas-57c4d.firebaseapp.com","messagingSenderId":"416128595356"}))],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideFirebaseApp(() => initializeApp({"projectId":"alzhi-c974b","appId":"1:107206225530:web:7cdcaf170e38321e00d5c3","storageBucket":"alzhi-c974b.appspot.com","apiKey":"AIzaSyDY3SWzZL0ebxCC34vh6gTEGV3OvpiTXCo","authDomain":"alzhi-c974b.firebaseapp.com","messagingSenderId":"107206225530"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
