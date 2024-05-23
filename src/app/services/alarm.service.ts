@@ -1,44 +1,37 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-import { ToastController } from '@ionic/angular';
-import { LocalNotifications } from '@capacitor/local-notifications';
-
-// Se podría separar este servicio y el de alarmas capaz
-export interface Reminder {
-  id?: string;
-  name: string;
-  date: Date;
-  additionalData: string;
-}
+import { Reminder } from '../models/reminder.models';
+import { LocalNotifications } from '@capacitor/local-notifications'; 
+import { ToastController } from '@ionic/angular'; 
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirestoreService {
+export class AlarmService {
 
-  constructor(
-    private firestore: AngularFirestore,
-    public toastController:ToastController
-  ) { }
+  constructor(private firestore: AngularFirestore, private toastController: ToastController) { }
 
-  addReminder(reminder: Reminder): Promise<void> {
-    const id = this.firestore.createId(); // Generar un ID único para el documento
-    const reminderWithId = { ...reminder, id }; // Agregar el ID al recordatorio
-    return this.firestore.collection('reminders').doc(id).set(reminderWithId)
+  // Añade un recordatorio para un usuario específico (Subcolección dentro de la colección de usuarios - Relación de 1 a M)
+  addReminder(userId: string, reminder: Reminder): Promise<void> {
+    const id = this.firestore.createId(); // Genera un ID único para el documento
+    const reminderWithId = { ...reminder, id }; // Agrega el ID al recordatorio
+    return this.firestore.collection(`users/${userId}/reminders`).doc(id).set(reminderWithId)
       .then(() => {
         console.log("Document successfully written!");
-        this.scheduleNotification(id, reminder); // Programar la notificación después de guardar los datos
+        this.scheduleNotification(id, reminder); // Programa la notificación después de guardar los datos
       })
       .catch(error => {
         console.error("Error writing document: ", error);
       });
-  } 
-
-  getReminders(): Observable<Reminder[]> {
-    return this.firestore.collection<Reminder>('reminders').valueChanges();
   }
 
+  // Obtiene los recordatorios de un usuario específico
+  getReminders(userId: string): Observable<Reminder[]> {
+    return this.firestore.collection<Reminder>(`users/${userId}/reminders`).valueChanges();
+  }
+
+  // Programa una notificación de un recordatorio (Capacitor Local Notifications)
   private async scheduleNotification(id: string, reminder: Reminder) {
     console.log('Scheduling notification for:', reminder.name, 'at:', reminder.date);
   
@@ -76,6 +69,7 @@ export class FirestoreService {
     console.log('Notification scheduled successfully');
   }
 
+  // Identificador único para la notificación, Capacitor requiere un número entero
   private generateId(id: string): number {
     let hash = 0;
     if (id.length === 0) return hash;
