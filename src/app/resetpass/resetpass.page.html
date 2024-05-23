@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Recuperar Password</ion-title>
+      <ion-icon routerLink="/login" name="chevron-back-outline" class="back" slot="end"></ion-icon>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>  
+  <div class="formulario">
+    <ion-text>Restaurar contraseña</ion-text>
+    <ion-item>
+      <ion-label class="labelsize" position="floating">Correo</ion-label>
+      <ion-input type="email"  [(ngModel)]="email"> </ion-input>
+      <ion-icon name="mail-outline" slot="end"></ion-icon>
+    </ion-item> 
+    
+    <ion-row class="ion-justify-content-center">
+      <p>Ingresa tu mail para restaurar tu contraseña</p>
+    </ion-row>
+    
+    <ion-row class="ion-justify-content-center">
+      <ion-button (click)="onReset()" class="buttons">Enviar</ion-button>
+    </ion-row>
+  </div>
+</ion-content>

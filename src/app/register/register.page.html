@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formReg" (ngSubmit)="onSubmit()" class="formulario">  
+    <ion-text>Registrá tu cuenta</ion-text>  
+
+    <div id="form">
+      <ion-item>
+        <ion-label class="labelsize" position="floating">Nombre y Apellido</ion-label>
+        <ion-input type="text"></ion-input>
+        <ion-icon name="person-outline" slot="end" class="custom-icon"></ion-icon>
+      </ion-item>  
+  
+      <ion-item>
+        <ion-label class="labelsize" position="floating">Correo</ion-label>
+        <ion-input type="text" class="form-control" formControlName="email"></ion-input>
+        <ion-icon name="mail-outline" slot="end" class="custom-icon"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label class="labelsize" position="floating">Contraseña</ion-label>
+        <ion-input type="password" class="form-control" formControlName="password"></ion-input>
+        <ion-icon name="lock-closed-outline" slot="end" class="custom-icon" ></ion-icon>
+      </ion-item>
+    </div>
+    
+    <div id="enviar"> 
+      <ion-row class="ion-justify-content-center">
+        <ion-button type="submit" class="buttons">Enviar</ion-button>
+      </ion-row>
+    </div>
+
+    <div> 
+      <ion-row class="ion-justify-content-center">
+        <ion-text>
+          <a routerLink="/login"><p>Ya tengo cuenta</p></a>
+        </ion-text>
+      </ion-row>
+    </div>
+  </form>
+</ion-content>
