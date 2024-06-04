@@ -4,3 +4,13 @@ node_modules
 .firebase
 *-debug.log
 .runtimeconfig.json
+
+# Excluir caché de Angular
+.angular/cache/
+
+# Excluir directorios de node_modules
+node_modules/
+
+# Excluir archivos de salida de Webpack 
+dist/
+build/
