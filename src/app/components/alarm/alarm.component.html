@@ -7,17 +7,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-label position="floating">Nombre</ion-label>
-    <ion-input [(ngModel)]="reminder.name"></ion-input>
+
+  <ion-item>   
+    <ion-input [(ngModel)]="reminder.name" placeholder="Nombre"></ion-input>
   </ion-item>
+  
+  <ion-item>
+    <ion-input type="text-area" [(ngModel)]="reminder.additionalData" placeholder="Descripcion"></ion-input>
+  </ion-item>
+
   <ion-item>
     <ion-label position="floating">Fecha</ion-label>
     <ion-datetime [(ngModel)]="reminder.date"></ion-datetime>
   </ion-item>
-  <ion-item>
-    <ion-label position="floating">Descripcion</ion-label>
-    <ion-input [(ngModel)]="reminder.additionalData"></ion-input>
-  </ion-item>
+
   <ion-button expand="full" (click)="addReminder()">Agregar</ion-button>
 </ion-content>

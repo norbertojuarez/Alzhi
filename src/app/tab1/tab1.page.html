@@ -1,18 +1,31 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Por Hacer
+      Tus datos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Componente donde se muestran las listas -->
-  <app-listas [tipo]="'por hacer'"></app-listas>
+  <div class="section-margin ion-text-center">
+    <ion-label class="label-margin">Nombre Completo</ion-label>
+    <ion-input class="input-margin" fill="solid" disabled="true" placeholder="{{currentUser.name}}"></ion-input>
+  </div>
+
+  <div class="section ion-text-center">
+    <ion-label class="label-margin">Fecha de nacimiento</ion-label>
+    <ion-input class="input-margin" fill="solid" disabled="true" placeholder="{{currentUser.date}}"></ion-input>
+  </div>
+
+  <div class="section ion-text-center">
+    <ion-label class="label-margin">Dirección</ion-label>
+    <ion-input class="input-margin" fill="solid" disabled="true" placeholder="{{currentUser.adress}}"></ion-input>
+  </div>
+
+  <div class="section ion-text-center">
+    <ion-label class="label-margin">Contacto</ion-label>
+    <ion-input class="input-margin" fill="solid" disabled="true" placeholder="{{currentUser.contact.nombre}}"></ion-input>
+    <ion-input class="input-margin" fill="solid" disabled="true" placeholder="{{currentUser.contact.telefono}}"></ion-input>
+  </div>
 </ion-content>
 
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="AgregarLista()">
-  <ion-fab-button>
-  <ion-icon name="add-outline"></ion-icon>
-  </ion-fab-button>
-</ion-fab>

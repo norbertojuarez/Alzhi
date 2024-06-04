@@ -36,3 +36,19 @@
 @import "@ionic/angular/css/palettes/dark.class.css"; 
 @import "@ionic/angular/css/palettes/dark.system.css";
 
+
+
+
+*{
+    --background:#f8f0ed;
+    --color:#000100;
+}
+
+
+  
+  ion-tab-button {
+    --color-selected: #000100; /* Color del texto del tab seleccionado */
+    --color: #8e8e93; /* Color del texto del tab no seleccionado */
+  }
+  
+

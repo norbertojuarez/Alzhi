@@ -87,6 +87,7 @@ export class AlarmService {
       duration: 2000
     });
 
-    toast.present();
+    toast.present();   
   }
 }
+
