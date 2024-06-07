@@ -3,6 +3,9 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signO
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { firstValueFrom } from 'rxjs';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { User } from '../models/users.model';
+import { Contact } from '../models/contact.model';
 import { AlarmService } from './alarm.service';
 import { Reminder } from '../models/reminder.models';
 import 'firebase/compat/firestore'
@@ -70,12 +73,69 @@ export class UserService {
     return userDoc.set({});
   }
 
+  // Guarda un usuario en Firestore
+  addUser(user: User) {
+    if (this.userId) {
+      return this.firestore.collection('users').doc(this.userId).set({
+        name: user.name,
+        date: user.date,
+        address: user.address,
+        contact: {
+          name: user.contact.name,
+          phone: user.contact.phone
+        }
+      });
+    } else {
+      throw new Error('Ocurrió un error al guardar los datos del usuario');
+    }
+  }
+
+  // Obtiene los datos del usuario autenticado desde Firestore
+  getUser(): Observable<User> {
+    if (this.userId) {
+      return this.firestore.collection('users').doc<User>(this.userId).valueChanges().pipe(
+        tap(user => {
+          if (!user) {
+            throw new Error('Usuario no encontrado');
+          }
+        }),
+        map(user => {
+          if (user) {
+            return {
+              name: user.name,
+              date: user.date,
+              address: user.address,
+              contact: {
+                name: user.contact.name,
+                phone: user.contact.phone
+              }
+            };
+          } else {
+            throw new Error('Usuario no encontrado');
+          }
+        })
+      );
+    } else {
+      throw new Error('Ocurrió un error al buscar los datos del usuario');
+    }
+  }
+  
+
+
+
+
+
+
+
+
+
+
   // Guarda una alarma para el usuario logueado (se puede pasar a otro servicio capaz)
   addReminder(reminder: Reminder): Promise<void> {
     if (this.userId) {
       return this.alarmService.addReminder(this.userId, reminder);
     } else {
-      throw new Error('No user is currently logged in.');
+      throw new Error('Ocurrió un error al guardar los datos del usuario');
     }
   }
 
@@ -84,7 +144,7 @@ export class UserService {
     if (this.userId) {
       return this.alarmService.getReminders(this.userId);
     } else {
-      throw new Error('No user is currently logged in.');
+      throw new Error('Ocurrió un error al buscar los datos del usuario');
     }
   }
 }

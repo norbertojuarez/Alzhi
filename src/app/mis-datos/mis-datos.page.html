@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="aperture-outline" slot="start"></ion-icon>
+    <ion-title>Alzhi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="formulario">  
+    <ion-row class="ion-justify-content-center">
+      <ion-text class="datos">Completa tus datos</ion-text> 
+    </ion-row>
+    
+    <div id="form">
+      <ion-item>
+        <ion-input type="text" class="form-control" formControlName="nombreCompleto" placeholder="Nombre y Apellido"> </ion-input>
+        <ion-icon name="person-outline" slot="end" class="custom-icon"></ion-icon>
+      </ion-item>
+
+      <!--Esto más adelante cambiarlo por un calendario o un selector de años/meses/días -->
+      <ion-item> 
+        <ion-input type="text" class="form-control" formControlName="fechaNacimiento" placeholder="Fecha de Nacimiento"> </ion-input>
+        <ion-icon name="calendar-outline" slot="end" class="custom-icon"></ion-icon>
+      </ion-item>
+
+      <ion-item>    
+        <ion-input type="text" class="form-control" formControlName="direccion" placeholder="Dirección"> </ion-input>
+        <ion-icon name="home-outline" slot="end" class="custom-icon"></ion-icon>
+      </ion-item>
+
+      <ion-row class="ion-justify-content-center" id="contact">
+        <ion-text>Agrega un contacto</ion-text> 
+      </ion-row>
+
+      <ion-item>    
+        <ion-input type="text" class="form-control" formControlName="contactoNombre" placeholder="Nombre"> </ion-input>
+        <ion-icon name="person-add-outline" slot="end" class="custom-icon"></ion-icon>
+      </ion-item>
+
+      <ion-item>    
+        <ion-input type="text" class="form-control" formControlName="contactoTelefono" placeholder="Teléfono"> </ion-input>
+        <ion-icon name="call-outline" slot="end" class="custom-icon"></ion-icon>
+      </ion-item>
+
+    </div>
+    
+    <div id="enviar"> 
+      <ion-row class="ion-justify-content-center">
+        <ion-button type="submit" class="buttons">Guardar</ion-button>
+      </ion-row>
+    </div>
+
+  </form>
+</ion-content>
+

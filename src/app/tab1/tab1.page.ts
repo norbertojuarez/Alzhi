@@ -1,19 +1,8 @@
 import { Component } from '@angular/core';
+import { UserService } from '../services/user.service'; 
+import { User } from '../models/users.model';
 
 
-export interface Contact {
-  nombre: string;
-  telefono: string;  
-} 
-
-
-export interface User {
-  id: number;
-  name: string;
-  date: string;
-  adress: string;
-  contact: Contact;  
-}
 
 @Component({
   selector: 'app-tab1',
@@ -22,17 +11,14 @@ export interface User {
 })
 export class Tab1Page {
 
-  constructor() {}
+  currentUser: User | undefined;
+
+  constructor(private userService: UserService) {}
   
-  currentUser: User = {
-    id: 1,
-    name: 'John Doe',
-    date: '1925-01-01',
-    adress: 'Calle 123, 4567890',
-    contact: {
-      nombre: 'Juan Perez',
-      telefono: '1234567890'
-    }
-  };
+  ngOnInit() {
+    this.userService.getUser().subscribe(user => {
+      this.currentUser = user;
+    });
+  }
 
 }
