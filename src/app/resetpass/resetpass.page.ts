@@ -22,9 +22,9 @@ export class ResetpassPage implements OnInit {
     try {
       await this.userService.resetPassword(this.email);
       const toast = await this.toastController.create({
-        message: 'Se ha enviado un correo electrónico con instrucciones para restablecer tu contraseña.',
+        message: 'Se ha enviado un correo electrónico con instrucciones para restablecer tu contraseña',
         duration: 3000,
-        position: 'top',
+        position: 'bottom',
         color: 'success'
       });
       
@@ -38,8 +38,8 @@ export class ResetpassPage implements OnInit {
         const toast = await this.toastController.create({
           message: 'Ingrese un correo electrónico registrado válido',
           duration: 3000,
-          position: 'top',
-          color: 'danger'
+          position: 'bottom',
+          color: 'light'
         });
         await toast.present();   
     }

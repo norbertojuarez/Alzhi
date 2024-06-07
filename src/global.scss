@@ -39,16 +39,29 @@
 
 
 
-*{
-    --background:#f8f0ed;
-    --color:#000100;
+* {
+  --background:#FFFAF2;
+  --color:#000100;
+  font-family: Varela Round;
+}
+  
+ion-tab-button {
+  --color-selected: #000100; /* Color del texto del tab seleccionado */
+  --color: #8e8e93; /* Color del texto del tab no seleccionado */
+}
+
+ion-toolbar {
+  padding-left: 10px;
+  --background: #B3E5F8;
+}
+
+.varela-round-regular {
+  font-family: "Varela Round", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 
-  
-  ion-tab-button {
-    --color-selected: #000100; /* Color del texto del tab seleccionado */
-    --color: #8e8e93; /* Color del texto del tab no seleccionado */
-  }
-  
+
+
 

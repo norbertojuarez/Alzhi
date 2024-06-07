@@ -1,12 +1,15 @@
 <ion-header>
-  <ion-toolbar color="secondary">
-    <ion-title>Login</ion-title>
+  <ion-toolbar>
+    <ion-icon name="aperture-outline" slot="start"></ion-icon>
+    <ion-title>Alzhi</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="formLogin" (ngSubmit)="onSubmit()" class="formulario">
-    <ion-text>Log In</ion-text>  
+  <form [formGroup]="formLogin" (ngSubmit)="onSubmit()" class="formulario">   
+    <ion-row class="ion-justify-content-center">
+      <ion-text>Inicio de Sesión</ion-text> 
+    </ion-row>
     
     <div id="form">
       <ion-item>    
@@ -15,8 +18,8 @@
       </ion-item>
 
       <ion-item>
-        <ion-input type="password" class="form-control" formControlName="password" placeholder="Contraseña"></ion-input>
-        <ion-icon name="lock-closed-outline" slot="end"></ion-icon>
+        <ion-input [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="password" placeholder="Contraseña"></ion-input>
+        <ion-icon name="lock-closed-outline" slot="end" aria-hidden="true" (touchstart)="togglePasswordVisibility(true)" (touchend)="togglePasswordVisibility(false)" (mouseleave)="togglePasswordVisibility(false)"></ion-icon>
       </ion-item>
     </div>
 
@@ -27,19 +30,17 @@
 
       <ion-row class="ion-justify-content-center">
         <ion-button type="submit" (click)="onClick()" class="buttons">
-          <ion-icon name="logo-google" slot="start"></ion-icon>Ingresar con google</ion-button>
+          <ion-icon name="logo-google" slot="start"></ion-icon>Ingresar con Google</ion-button>
       </ion-row>
     </div>
+    
+    <ion-row class="ion-justify-content-center">
+      <a routerLink="/resetpass"><p>Olvidé mi contraseña</p></a>
+    </ion-row>
 
-    <div id="links">  
-      <ion-row class="ion-justify-content-center">
-        <a routerLink="/resetpass"><p>Olvidé mi contraseña</p></a>
-      </ion-row>
-
-      <ion-row class="ion-justify-content-center">
-        <a routerLink="/register"><p id="registro">Registrarme</p></a>
-      </ion-row>
-    </div>
+    <ion-row class="ion-justify-content-center">
+      <a routerLink="/register"><p id="registro">Registrarme</p></a>
+    </ion-row>
 
   </form>
 </ion-content>

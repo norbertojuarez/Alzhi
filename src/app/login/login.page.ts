@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
+  showPassword = false;
   formLogin: FormGroup;
 
   constructor(
@@ -39,8 +40,8 @@ export class LoginPage implements OnInit {
         const toast = await this.toastController.create({
           message: 'Correo electrónico o contraseña incorrectos',
           duration: 3000,
-          position: 'top',
-          color: 'danger'
+          position: 'bottom',
+          color: 'light'
         });
         await toast.present();        
       });
@@ -55,4 +56,7 @@ export class LoginPage implements OnInit {
       .catch(error => console.log(error))
   }
 
+  togglePasswordVisibility(show: boolean) {
+    this.showPassword = show;
+  }
 }

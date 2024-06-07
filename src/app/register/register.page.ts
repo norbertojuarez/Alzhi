@@ -10,7 +10,8 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-
+  
+  showPassword = false;
   formReg: FormGroup;
 
   constructor(
@@ -34,14 +35,14 @@ export class RegisterPage implements OnInit {
         message: '¡Registro exitoso!',
         color: "success",
         duration: 2000, // Duración en milisegundos (en este caso, 4 segundos)
-        position: 'top' //
+        position: 'bottom' //
       });
 
       await toast.present();
 
       // Redirigir al usuario a la página de inicio de sesión después de que el toast se haya mostrado
       toast.onDidDismiss().then(() => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/mis-datos']);
       });
     })
     .catch(async error => {
@@ -56,11 +57,15 @@ export class RegisterPage implements OnInit {
       const toast = await this.toastController.create({
         message: 'Correo electrónico o contraseña incorrectos',
         duration: 3000,
-        position: 'top',
-        color: 'danger'
+        position: 'bottom',
+        color: 'light'
       });
       await toast.present();        
     });
+  }
+
+  togglePasswordVisibility(show: boolean) {
+    this.showPassword = show;
   }
 
 }

@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: 'resetpass',
     loadChildren: () => import('./resetpass/resetpass.module').then( m => m.ResetpassPageModule)
+  },
+  {
+    path: 'mis-datos',
+    loadChildren: () => import('./mis-datos/mis-datos.module').then( m => m.MisDatosPageModule)
   }
 ];
 @NgModule({
