@@ -1,0 +1,11 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{ reminder.name }}</ion-card-title>   
+    <ion-card-subtitle>{{ reminder.date | date: 'dd/MM/yyyy HH:mm'}}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    {{ reminder.additionalData }}
+    <ion-button expand="full" (click)="eliminarRecordatorio(reminder.id)">Eliminar</ion-button>
+  </ion-card-content>
+</ion-card>

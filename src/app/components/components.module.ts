@@ -5,12 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { ListasComponent } from './listas/listas.component';
 import { AlarmComponent } from './alarm/alarm.component';
 import { PipeModule } from '../pipes/pipe.module';
-
+import { CardsComponent } from './cards/cards.component';
 
 @NgModule({
   declarations: [
     ListasComponent,
-    AlarmComponent    
+    AlarmComponent,
+    CardsComponent 
   ],
   imports: [
     CommonModule,
@@ -20,7 +21,8 @@ import { PipeModule } from '../pipes/pipe.module';
   ],
   exports: [
     ListasComponent,
-    AlarmComponent  
+    AlarmComponent ,
+    CardsComponent
   ]
 })
 export class ComponentsModule { }

@@ -50,6 +50,8 @@ ion-tab-button {
   --color: #8e8e93; /* Color del texto del tab no seleccionado */
 }
 
+
+
 ion-toolbar {
   padding-left: 10px;
   --background: #B3E5F8;
@@ -60,8 +62,27 @@ ion-toolbar {
   font-weight: 400;
   font-style: normal;
 }
+.custom-alert {
+  --background: #B3E5F8; /* Fondo del alert */
+  --width: 90%; /* Ancho del alert */ 
+  --max-width: 90%; /* Ancho máximo del alert */
+  --color: #ff0000;
+}
 
+.custom-alert-header {
+  --color: #ff0000; /* Color del texto del header */
+  --font-size: 24px; /* Tamaño de fuente del header */
+}
 
+.custom-alert-message {
+  --color: #000; /* Color del texto del mensaje */
+  --font-size: 18px; /* Tamaño de fuente del mensaje */
+  --color: #ff0000;
+}
 
+.custom-alert-button {
+  --color: #ff0000; /* Color del texto del botón */
+  --background: #fff; /* Fondo del botón */
+}
 
 

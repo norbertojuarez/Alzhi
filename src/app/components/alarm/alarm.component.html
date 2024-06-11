@@ -1,11 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Agregar Alarma
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
 
   <ion-item>   
@@ -18,8 +10,10 @@
 
   <ion-item>
     <ion-label position="floating">Fecha</ion-label>
-    <ion-datetime [(ngModel)]="reminder.date"></ion-datetime>
+    <ion-datetime [(ngModel)]="reminder.date" (ionChange)="updateSelectedDate($event)"></ion-datetime>
   </ion-item>
 
-  <ion-button expand="full" (click)="addReminder()">Agregar</ion-button>
+  <ion-button expand="block" fill="outline" (click)="addReminder()">Agregar</ion-button>
+  <ion-button expand="block" fill="outline" (click)="CancelReminder()">Cancelar</ion-button>
 </ion-content>
+ 

@@ -6,18 +6,25 @@ import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { User } from '../models/users.model';
 import { Contact } from '../models/contact.model';
-import { AlarmService } from './alarm.service';
 import { Reminder } from '../models/reminder.models';
+import { LocalNotifications } from '@capacitor/local-notifications'; 
+import { ToastController } from '@ionic/angular'; 
 import 'firebase/compat/firestore'
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private userId: string | null = null;
+  private userId: string | null = this.getUserId();
 
-  constructor(private auth: Auth, private firestore: AngularFirestore, private alarmService: AlarmService) { 
+
+  constructor(
+    private auth: Auth, 
+    private firestore: AngularFirestore, 
+    public toastController: ToastController
+  ) { 
     this.auth.onAuthStateChanged(user => {
         this.userId = user ? user.uid : null;
     });
@@ -25,6 +32,31 @@ export class UserService {
 
   getUserId(): string | null {
       return this.userId;
+  }
+
+  getReminders(userId: string): Observable<Reminder[]> {
+    if (userId) {
+      return this.firestore.collection<Reminder>(`users/${userId}/reminders`).valueChanges({ idField: 'id' }).pipe(
+        map(reminders => reminders.map(reminder => {
+          return {
+            ...reminder,
+            date: this.convertTimestampToDate(reminder.date)
+          };
+        }))
+      );
+    } else {
+      throw new Error('Ocurrió un error al buscar los datos del usuario');
+    }
+  }
+
+  private convertTimestampToDate(timestamp: any): Date {
+    const seconds = timestamp.seconds || 0;
+    const nanoseconds = timestamp.nanoseconds || 0;
+    const milliseconds = seconds * 1000 + Math.floor(nanoseconds / 1000000);
+    const date = new Date(milliseconds);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return date;
   }
 
   register({ email, password }: any) {
@@ -119,32 +151,92 @@ export class UserService {
       throw new Error('Ocurrió un error al buscar los datos del usuario');
     }
   }
+  // Guarda una alarma para el usuario logueado
+   // Añade un recordatorio para un usuario específico (Subcolección dentro de la colección de usuarios - Relación de 1 a M)
+  async addReminder(userId: string, reminder: Reminder): Promise<void> {
+    const id = this.firestore.createId(); // Genera un ID único para el documento
+    const reminderWithId = { ...reminder, id }; // Agrega el ID al recordatorio
+    return this.firestore.collection(`users/${userId}/reminders`).doc(id).set(reminderWithId)
+      .then(() => {
+        console.log("Document successfully written!");
+        this.scheduleNotification(id, reminder); // Programa la notificación después de guardar los datos
+      })
+      .catch(error => {
+        console.error("Error writing document: ", error);
+      });
+  } 
+
+  async removeReminder(id: string): Promise<void> {    
+    if (!this.userId) {
+      return Promise.reject('User ID is not available');
+    }
+    return this.firestore.collection(`users/${this.userId}/reminders`).doc(id).delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch(error => {
+        console.error("Error deleting document: ", error);
+      });
+  }
+ 
   
-
-
-
-
-
-
-
-
-
-
-  // Guarda una alarma para el usuario logueado (se puede pasar a otro servicio capaz)
-  addReminder(reminder: Reminder): Promise<void> {
-    if (this.userId) {
-      return this.alarmService.addReminder(this.userId, reminder);
+  // Programa una notificación de un recordatorio (Capacitor Local Notifications)
+  private async scheduleNotification(id: string, reminder: Reminder) {
+    console.log('Scheduling notification for:', reminder.name, 'at:', reminder.date);
+  
+    // Verificar permisos
+    const permissions = await LocalNotifications.checkPermissions();
+    if (permissions.display === 'granted') {
+      // Si los permisos están concedidos, programar la notificación
+      await this.schedule(id, reminder);
     } else {
-      throw new Error('Ocurrió un error al guardar los datos del usuario');
+      // Si no, solicitar permisos
+      const requestResult = await LocalNotifications.requestPermissions();
+      if (requestResult.display === 'granted') {
+        // Si los permisos son concedidos después de la solicitud, programar la notificación
+        await this.schedule(id, reminder);
+      } else {
+        // Manejar el caso cuando los permisos no son concedidos
+        console.log('Permission was not granted.');
+      }
     }
   }
 
-  // Obtiene las alarmas del usuario logueado (se puede pasar a otro servicio capaz)
-  getReminders(): Observable<Reminder[]> {
-    if (this.userId) {
-      return this.alarmService.getReminders(this.userId);
-    } else {
-      throw new Error('Ocurrió un error al buscar los datos del usuario');
+  private async schedule(id: string, reminder: Reminder) {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: reminder.name,
+          body: reminder.additionalData,
+          id: this.generateId(id),
+          schedule: { at: new Date(reminder.date) },
+          actionTypeId: "",
+          extra: null
+        }
+      ]
+    });
+    console.log('Notification scheduled successfully');
+  }
+
+  
+  // Identificador único para la notificación, Capacitor requiere un número entero
+  private generateId(id: string): number {
+    let hash = 0;
+    if (id.length === 0) return hash;
+    for (let i = 0; i < id.length; i++) {
+      const char = id.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
     }
+    return Math.abs(hash);
+  }
+
+  async presentToast(mensage:string) {
+    let toast = await this.toastController.create({
+      message: mensage,
+      duration: 2000
+    });
+
+    toast.present();   
   }
 }

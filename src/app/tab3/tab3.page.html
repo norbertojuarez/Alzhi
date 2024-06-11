@@ -1,8 +1,24 @@
-<ion-content [fullscreen]="true">
-  <app-alarm> </app-alarm>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="AgregarLista()">
+
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title >
+        Recordatorios
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true">
+  <app-alarm  *ngIf="isAlarmActive; else showReminders" (CancelAlarm)="handleCancelAlarm()"> </app-alarm>
+ 
+  <ng-template #showReminders> 
+    <ng-container *ngFor="let reminder of reminders; let i = index">
+      <app-cards [reminder]="reminder"></app-cards>
+    </ng-container>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="AgregarNuevoRecordatorio()">
     <ion-fab-button>
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+  </ng-template>
+
 </ion-content>

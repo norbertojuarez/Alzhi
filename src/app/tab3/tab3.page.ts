@@ -1,48 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { ListaService } from '../services/lista.service'; 
+import { Reminder } from '../models/reminder.models';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page {
-
+export class Tab3Page implements OnInit{  
+  isAlarmActive: boolean = false;
+  reminders: Reminder[] = [];
+  userId: string | null = null;
   constructor(
-    public listaService:ListaService,
+    public listaService:ListaService,   
+    private userService: UserService
+
   ) {}
-  async AgregarLista(){
-    let alerta = await this.listaService.alertController.create({
-      header: "Agregar lista",
-      inputs: [
-        {
-          type: "text",
-          name: "titulo",
-          placeholder: "Ingresar nombre de la lista"
-        }
-      ],
-      buttons: [
-        {
-          text: "Cancelar",
-          role: "cancel"
-        },
-        {
-          text: "Crear",
-          handler: (data:any)=> {
-            let esValido: boolean = this.listaService.validarInput(data);
-            if (esValido){
-              let creadaOk = this.listaService.crearLista(data.titulo);
-              
-              if(creadaOk) { 
-                this.listaService.presentToast('Lista creada correctamente!');
-              }
-            }     
-          }
-        }
-      ]
-    })
-    
-    await alerta.present();
-    console.log('Click en el botón');
+  
+  ngOnInit() {       
+    this.userId = this.userService.getUserId();
+    if (this.userId) {
+      this.loadReminders(this.userId);
+    } else {
+      console.error('User ID is not available');  
+    }  
+  }  
+
+  loadReminders(userId: string){
+  // Obtener los recordatorios del servicio
+  this.userService.getReminders(userId).subscribe(reminders => {
+    this.reminders = reminders.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  });
+  }
+  AgregarNuevoRecordatorio() {          
+      this.isAlarmActive = true;       
+  }
+  
+  handleCancelAlarm(){
+    this.isAlarmActive = false;
   }
 }
