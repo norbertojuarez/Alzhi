@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { User } from '../models/users.model';
 import { Contact } from '../models/contact.model';
@@ -22,11 +22,11 @@ export class MisDatosPage implements OnInit {
     private formBuilder: FormBuilder)
     {
       this.form = this.formBuilder.group({
-        nombreCompleto: [''],
-        fechaNacimiento: [''],
-        direccion: [''],
-        contactoNombre: [''],
-        contactoTelefono: ['']
+        nombreCompleto: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
+        fechaNacimiento: ['', [Validators.required]],
+        direccion: ['', Validators.required],
+        contactoNombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
+        contactoTelefono: ['', [Validators.required, Validators.pattern('^[0-9]{2,12}$')]]
       });
   }
 
@@ -34,25 +34,38 @@ export class MisDatosPage implements OnInit {
   }
 
   createContactData() {
+    const contactName = this.form.get('contactoNombre')?.value;
+    const contactPhone = this.form.get('contactoTelefono')?.value;
+  
     const contact: Contact = {
-      name: this.form.get('contactoNombre')?.value,
-      phone: this.form.get('contactoTelefono')?.value
+      name: contactName,
+      phone: contactPhone
     };
+  
     return contact;
   }
 
-
   createUserData() {
+    const userName = this.form.get('nombreCompleto')?.value;
+    const userDate = this.form.get('fechaNacimiento')?.value;
+    const userAddress = this.form.get('direccion')?.value;
+    const userContact = this.createContactData();
+
     const user: User = {
-      name: this.form.get('nombreCompleto')?.value,
-      date: this.form.get('fechaNacimiento')?.value,
-      address: this.form.get('direccion')?.value,
-      contact: this.createContactData()
+      name: userName,
+      date: userDate,
+      address: userAddress,
+      contact: userContact
     };
+
     return user; 
   }
 
   onSubmit() {
+    if (!this.form.valid) {
+      return;
+    }
+  
     this.userService.addUser(this.createUserData())
     .then(async response => {
       const toast = await this.toastController.create({
@@ -66,15 +79,6 @@ export class MisDatosPage implements OnInit {
         this.router.navigate(['/tabs/tab1']);
       });
     })
-    .catch(async error => {      
-      const toast = await this.toastController.create({
-        message: error.message,
-        duration: 3000,
-        position: 'bottom',
-        color: 'light'
-      });
-      await toast.present();        
-    });
   }
 }
 

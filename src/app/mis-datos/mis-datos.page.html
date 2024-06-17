@@ -17,16 +17,29 @@
         <ion-icon name="person-outline" slot="end" class="custom-icon"></ion-icon>
       </ion-item>
 
+      <div class="validacion" *ngIf="form.get('nombreCompleto')?.invalid && form.get('nombreCompleto')?.touched">
+        <div *ngIf="form.get('nombreCompleto')?.errors?.['required']">Este campo es requerido</div>
+        <div *ngIf="form.get('nombreCompleto')?.errors?.['pattern']">Por favor, ingrese un formato válido</div>
+      </div>
+
       <!--Esto más adelante cambiarlo por un calendario o un selector de años/meses/días -->
       <ion-item> 
         <ion-input type="text" class="form-control" formControlName="fechaNacimiento" placeholder="Fecha de Nacimiento"> </ion-input>
         <ion-icon name="calendar-outline" slot="end" class="custom-icon"></ion-icon>
       </ion-item>
 
+      <div class="validacion" *ngIf="form.get('fechaNacimiento')?.invalid && form.get('fechaNacimiento')?.touched">
+        <div *ngIf="form.get('fechaNacimiento')?.errors?.['required']">Este campo es requerido</div>
+      </div>
+
       <ion-item>    
         <ion-input type="text" class="form-control" formControlName="direccion" placeholder="Dirección"> </ion-input>
         <ion-icon name="home-outline" slot="end" class="custom-icon"></ion-icon>
       </ion-item>
+
+      <div class="validacion" *ngIf="form.get('direccion')?.invalid && form.get('direccion')?.touched">
+        <div *ngIf="form.get('direccion')?.errors?.['required']">Este campo es requerido</div>
+      </div>
 
       <ion-row class="ion-justify-content-center" id="contact">
         <ion-text>Agrega un contacto</ion-text> 
@@ -37,16 +50,25 @@
         <ion-icon name="person-add-outline" slot="end" class="custom-icon"></ion-icon>
       </ion-item>
 
+      <div class="validacion" *ngIf="form.get('contactoNombre')?.invalid && form.get('contactoNombre')?.touched">
+        <div *ngIf="form.get('contactoNombre')?.errors?.['required']">Este campo es requerido</div>
+        <div *ngIf="form.get('contactoNombre')?.errors?.['pattern']">Por favor, ingrese un formato válido</div>
+      </div>
+
       <ion-item>    
         <ion-input type="text" class="form-control" formControlName="contactoTelefono" placeholder="Teléfono"> </ion-input>
         <ion-icon name="call-outline" slot="end" class="custom-icon"></ion-icon>
       </ion-item>
 
+      <div class="validacion" *ngIf="form.get('contactoTelefono')?.invalid && form.get('contactoTelefono')?.touched">
+        <div *ngIf="form.get('contactoTelefono')?.errors?.['required']">Este campo es requerido</div>
+        <div *ngIf="form.get('contactoTelefono')?.errors?.['pattern']">Por favor ingrese solo números</div>
+      </div>
     </div>
     
     <div id="enviar"> 
       <ion-row class="ion-justify-content-center">
-        <ion-button type="submit" class="buttons">Guardar</ion-button>
+        <ion-button type="submit" [disabled]="!form.valid" class="buttons">Guardar</ion-button>
       </ion-row>
     </div>
 

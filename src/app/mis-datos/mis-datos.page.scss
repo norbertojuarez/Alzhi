@@ -73,3 +73,15 @@ p {
     font-size: 20px;
 }
 
+.validacion {
+    display: flex;
+    text-align: center;
+}
+
+.validacion div {
+    color: red; 
+    font-size: 16px; 
+    width: 100%; 
+    margin-top: -5px;
+}
+
