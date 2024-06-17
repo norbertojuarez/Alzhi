@@ -55,7 +55,7 @@ export class RegisterPage implements OnInit {
           mensajedeError = 'La contraseña debe tener al menos 6 caracteres';
       }
       const toast = await this.toastController.create({
-        message: 'Correo electrónico o contraseña incorrectos',
+        message: mensajedeError,
         duration: 3000,
         position: 'bottom',
         color: 'light'
