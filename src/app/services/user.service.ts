@@ -10,7 +10,7 @@ import { Reminder } from '../models/reminder.models';
 import { LocalNotifications } from '@capacitor/local-notifications'; 
 import { ToastController } from '@ionic/angular'; 
 import 'firebase/compat/firestore'
-
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,8 @@ export class UserService {
   constructor(
     private auth: Auth, 
     private firestore: AngularFirestore, 
-    public toastController: ToastController
+    public toastController: ToastController,
+    private router: Router
   ) { 
     this.auth.onAuthStateChanged(user => {
         this.userId = user ? user.uid : null;
@@ -77,12 +78,18 @@ export class UserService {
           const snapshot = await firstValueFrom(userDoc.get());
           if (snapshot.exists) {
               // Si el documento del usuario ya existe, carga sus datos
-              console.log('Usuario ya registrado'); // ver lógica cuando esté el modelo de recordatorios
+              this.router.navigate(['/tabs/']);
+              console.log('Usuario ya registrado'); // ver lógica cuando esté el modelo de recordatorios              
           } else {
               // Si es la primera vez que se registra, crea el documento del usuario en Firestore
               await this.createUserDocument(userId);
-          }
+              // y redirige al usuario a cargar sus datos
+              this.router.navigate(['/mis-datos/']);
+              
+
+          }          
       });
+      
   }  
 
   async login({ email, password }: any) {
@@ -217,7 +224,6 @@ export class UserService {
     });
     console.log('Notification scheduled successfully');
   }
-
   
   // Identificador único para la notificación, Capacitor requiere un número entero
   private generateId(id: string): number {

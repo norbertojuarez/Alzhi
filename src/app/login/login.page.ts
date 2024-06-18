@@ -49,9 +49,8 @@ export class LoginPage implements OnInit {
 
   onClick() {
     this.userService.loginWithGoogle()
-      .then(response => {
-        console.log(response);
-        this.router.navigate(['/tabs/']);
+      .then(response => {       
+        
       })
       .catch(error => console.log(error))
   }

@@ -7,9 +7,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Componente donde se muestran las listas -->
-  <app-listas [tipo]="'haciendo'"></app-listas>
-  
+
+  <ion-button (click)="onEdit()">Editar datos personales</ion-button>
+ 
+  <ion-button (click)="onLogout()">Cerrar sesión</ion-button>
 </ion-content>
 
 

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
+import { user } from '@angular/fire/auth';
 
 
 @Component({
@@ -9,8 +12,18 @@ import { Component } from '@angular/core';
 export class Tab2Page {
 
   constructor(
+    private router: Router,
+    private userService : UserService,
     
   ) {}
 
- 
+ onEdit(){
+  this.router.navigate(['/mis-datos/']);
+}
+
+onLogout(){
+  this.userService.logout(),
+  console.log("sesion cerrada");
+  this.router.navigate(['/login/']);
+}
 }
