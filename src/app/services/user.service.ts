@@ -3,6 +3,7 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signO
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { firstValueFrom } from 'rxjs';
 import { Observable } from 'rxjs';
+import { Haptics } from '@capacitor/haptics';
 import { map, tap } from 'rxjs/operators';
 import { User } from '../models/users.model';
 import { Contact } from '../models/contact.model';
@@ -29,6 +30,31 @@ export class UserService {
     this.auth.onAuthStateChanged(user => {
         this.userId = user ? user.uid : null;
     });
+  }
+
+  async ngOnInit() {
+    await LocalNotifications.requestPermissions();
+  }
+
+  initializeNotificationListener() {
+    LocalNotifications.addListener('localNotificationReceived', (notification) => {
+      this.vibrar();
+      console.log('Notificación recibida:');
+      
+    });
+    // Si trabajamos con repeticiones
+    LocalNotifications.addListener('localNotificationActionPerformed', (notificationAction) => {
+      console.log('Notificación lanzada:', notificationAction);
+      if (notificationAction.actionId === 'CANCEL_REMINDER') {
+        this.cancelReminder(notificationAction.notification.extra.reminderId);
+        console.log('Notificación cancelada:', notificationAction);
+      }
+    });
+  }
+
+  vibrar() {
+    Haptics.vibrate({ duration: 4000 });
+    console.log('Vibrando');
   }
 
   getUserId(): string | null {
@@ -216,13 +242,35 @@ export class UserService {
           title: reminder.name,
           body: reminder.additionalData,
           id: this.generateId(id),
-          schedule: { at: new Date(reminder.date) },
-          actionTypeId: "",
-          extra: null
+          schedule: { 
+            at: new Date(reminder.date),
+            allowWhileIdle: true,
+            repeats: true, // Sacar si no se quiere que se repita
+            every: 'minute', // Sacar si no se quiere que se repita
+            count: 3 // Sacar si no se quiere que se repita         
+          },
+          sound: 'default',
+          smallIcon: 'res://drawable/alarma-icono', 
+          actionTypeId: "CANCEL_REMINDER",
+          extra: {
+            reminderId: id
+          }
         }
       ]
     });
-    console.log('Notification scheduled successfully');
+    console.log('Notificacion programada exitosamente');
+  }
+
+  public async cancelReminder(idCancel: number) {
+    await LocalNotifications.cancel({
+      notifications: [
+        {
+          id: idCancel,
+        },
+      ],
+    });
+
+    console.log('Notificacion cancelada exitosamente');
   }
   
   // Identificador único para la notificación, Capacitor requiere un número entero

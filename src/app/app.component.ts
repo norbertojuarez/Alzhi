@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { StatusBar } from '@capacitor/status-bar';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
