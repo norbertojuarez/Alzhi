@@ -1,37 +1,38 @@
 import { Injectable } from '@angular/core';
 import { LocalNotifications } from '@capacitor/local-notifications'; 
-import { Haptics } from '@capacitor/haptics';
 import { Reminder } from '../models/reminder.models';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor() { }
+  constructor(private plataform: Platform) {
+    this.plataform.ready().then(() => {
+      this.initializeNotification();
+    });
+  }
 
   async ngOnInit() {
     await LocalNotifications.requestPermissions();
   }
 
-  public initializeNotificationListener() {
-    LocalNotifications.addListener('localNotificationReceived', (notification) => {
-      this.vibrar();
-      console.log('Notificación recibida:', notification);
+  // Crea un canal y acciones para la notificación de recordatorios
+  private async initializeNotification() {
+    LocalNotifications.createChannel({
+      id: 'reminder',
+      name: 'Recordatorios',
+      description: 'Canal para recordatorios',
+      sound: 'alarm.mp3',
+      vibration: true,
+      importance: 5,
+      visibility: 1
     });
-    // Si trabajamos con repeticiones
-    LocalNotifications.addListener('localNotificationActionPerformed', (notificationAction) => {
-      console.log('Notificación lanzada:', notificationAction);
-      if (notificationAction.actionId === 'CANCEL_REMINDER') {
-        this.cancelReminder(notificationAction.notification.extra.reminderId);
-        console.log('Notificación cancelada:', notificationAction);
-      }
-    });
-  }
+  } 
 
-  // Programa una notificación de un recordatorio (Capacitor Local Notifications)
+  // Programa una notificación de un recordatorio 
   public async scheduleNotification(id: string, reminder: Reminder) {
-    // Verificar permisos
     const permissions = await LocalNotifications.checkPermissions();
     if (permissions.display === 'granted') {
       await this.schedule(id, reminder);
@@ -55,36 +56,18 @@ export class NotificationService {
           id: this.generateId(id),
           schedule: { 
             at: new Date(reminder.date),
-            allowWhileIdle: true,
-            repeats: true, // Sacar si no se quiere que se repita
-            every: 'minute', // Sacar si no se quiere que se repita
-            count: 3 // Sacar si no se quiere que se repita         
+            allowWhileIdle: true   
           },
-          sound: 'default',
-          smallIcon: 'res://drawable/alarma-icono', 
-          actionTypeId: "CANCEL_REMINDER",
-          extra: {
-            reminderId: id
-          }
+          smallIcon: 'ic_stat_access_alarms',
+          iconColor: '#CBD5C0',
+          channelId: 'reminder'
         }
       ]
     });
     console.log('Notificacion programada exitosamente');
   }
-
-  private async cancelReminder(idCancel: number) {
-    await LocalNotifications.cancel({
-      notifications: [
-        {
-          id: idCancel,
-        },
-      ],
-    });
-
-    console.log('Notificacion cancelada exitosamente');
-  }
   
-  // Identificador único para la notificación, Capacitor requiere un número entero
+  // Identificador único para la notificación, Capacitor lo requiere
   private generateId(id: string): number {
     let hash = 0;
     if (id.length === 0) return hash;
@@ -96,9 +79,4 @@ export class NotificationService {
     return Math.abs(hash);
   }
 
-  private vibrar() {
-    Haptics.vibrate({ duration: 4000 });
-    console.log('Vibrando');
-  }
-  
 }
