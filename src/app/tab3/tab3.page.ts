@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import { ListaService } from '../services/lista.service'; 
 import { Reminder } from '../models/reminder.models';
 import { UserService } from '../services/user.service';
 
@@ -13,7 +12,6 @@ export class Tab3Page implements OnInit{
   reminders: Reminder[] = [];
   userId: string | null = null;
   constructor(
-    public listaService:ListaService,   
     private userService: UserService
 
   ) {}
