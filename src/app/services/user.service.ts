@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "@angular/fire/auth";
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "@angular/fire/auth";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { NotificationService } from './notification.service';
 import { firstValueFrom } from 'rxjs';
@@ -26,7 +26,7 @@ export class UserService {
     private router: Router
   ) { 
     this.auth.onAuthStateChanged(user => {
-        this.userId = user ? user.uid : null;
+        this.userId = user ? user.uid : null;        
     });
   }
 
@@ -38,31 +38,10 @@ export class UserService {
     return createUserWithEmailAndPassword(this.auth, email, password)
     .then((userCredential) => {
       // Una vez que el usuario se registra, crea el documento del usuario en Firestore
-      const userId = userCredential.user.uid;
+      const userId = userCredential.user.uid;     
       return this.createUserDocument(userId);
     });
   }
-
-  loginWithGoogle() {
-    return signInWithPopup(this.auth, new GoogleAuthProvider())
-      .then(async (userCredential) => {
-      // Una vez que el usuario inicia sesión con Google, verifica si es la primera vez que se registra
-      const userId = userCredential.user.uid;
-      const userDoc = this.firestore.doc(`users/${userId}`);
-      const snapshot = await firstValueFrom(userDoc.get());
-      if (snapshot.exists) {
-        // Si el documento del usuario ya existe, carga sus datos
-        this.router.navigate(['/tabs/']);
-        console.log('Usuario ya registrado'); // ver lógica cuando esté el modelo de recordatorios              
-      } else {
-          // Si es la primera vez que se registra, crea el documento del usuario en Firestore
-          await this.createUserDocument(userId);
-          // y redirige al usuario a cargar sus datos
-          this.router.navigate(['/mis-datos/']);
-      }          
-    });
-  }
-  
   async login({ email, password }: any) {
     const loginResult = await signInWithEmailAndPassword(this.auth, email, password);
     console.log('Usuario registrado'); // Cargar los recordatorios al iniciar sesión

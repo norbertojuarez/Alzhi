@@ -18,6 +18,7 @@ export class Tab1Page {
   ngOnInit() {
     this.userService.getUser().subscribe(user => {
       this.currentUser = user;
+      console.log(this.currentUser);
     });
   }
 

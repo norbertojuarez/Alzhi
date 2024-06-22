@@ -5,6 +5,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/users.model';
 import { Contact } from '../models/contact.model';
 import { ToastController } from '@ionic/angular';
+import { user } from '@angular/fire/auth';
 
 
 @Component({
@@ -24,25 +25,34 @@ export class MisDatosPage implements OnInit {
     private toastController: ToastController,
     private formBuilder: FormBuilder,    
   ) {
-    // Initialize the form
+    // Inicializa el formulario con valores vacíos
     this.form = this.formBuilder.group({
-      nombreCompleto: [this.currentUser?.name ],
-      fechaNacimiento: [this.currentUser?.date || ''],
-      direccion: [this.currentUser?.address || ''],
-      contactoNombre: [this.currentUser?.contact?.name || ''],
-      contactoTelefono: [this.currentUser?.contact?.phone || ''],     
-      
+      nombreCompleto: [''],
+      fechaNacimiento: [''],
+      direccion: [''],
+      contactoNombre: [''],
+      contactoTelefono: [''],
     });
+    // Suscripción a los cambios del formulario
     this.form.valueChanges.subscribe(() => {
+      console.log(this.form.value);
       this.validarFormulario();
     });
   }
-
-  ngOnInit(): void {
+ 
+  ngOnInit(): void { 
     this.userService.getUser().subscribe(user => {
-      this.currentUser = user;
-    });
+      this.currentUser = user;  // Suscripción a los cambios del usuario
+    this.form.patchValue({ // Actualiza los valores del formulario
+      nombreCompleto: this.currentUser?.name,
+      fechaNacimiento: this.currentUser?.date || '',
+      direccion: this.currentUser?.address || '',
+      contactoNombre: this.currentUser?.contact?.name || '',
+      contactoTelefono: this.currentUser?.contact?.phone || '',
+    });      
+  }); 
   }
+
 
   actualizarFecha(event: Event) {
     const input = event.target as HTMLInputElement;

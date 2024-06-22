@@ -1,0 +1,5 @@
+En android > app > src > main > res --> poner las carpetas con los iconos (incluidas las carpetas)
+
+En android > app > src > main > raw --> poner el archivo de sonido (suelto alarm.mp3)
+
+Los iconos que están sueltos (reloj y calendario) son posibles iconos para la app (pueden ser otros)

@@ -47,13 +47,6 @@ export class LoginPage implements OnInit {
       });
   }
 
-  onClick() {
-    this.userService.loginWithGoogle()
-      .then(response => {       
-        
-      })
-      .catch(error => console.log(error))
-  }
 
   togglePasswordVisibility(show: boolean) {
     this.showPassword = show;
