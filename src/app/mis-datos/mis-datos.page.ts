@@ -43,9 +43,6 @@ export class MisDatosPage implements OnInit {
       this.currentUser = user;
     });
   }
-  ionViewWillEnter() {
-    console.log("se muestra")
-  }
 
   actualizarFecha(event: Event) {
     const input = event.target as HTMLInputElement;

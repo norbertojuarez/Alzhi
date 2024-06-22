@@ -1,19 +1,23 @@
 <ion-content>
 
-  <ion-item>   
+  <ion-item class="datos-titulo">   
     <ion-input [(ngModel)]="reminder.name" placeholder="Nombre"></ion-input>
   </ion-item>
   
-  <ion-item>
+  <ion-item class="datos-descripcion">
     <ion-input type="text-area" [(ngModel)]="reminder.additionalData" placeholder="Descripcion"></ion-input>
   </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Fecha</ion-label>
-    <ion-datetime [(ngModel)]="reminder.date" (ionChange)="updateSelectedDate($event)"></ion-datetime>
-  </ion-item>
+  <div class="calendar">
+    <ion-datetime [(ngModel)]="reminder.date" (ionChange)="updateSelectedDate($event)">    
+      <span slot="time-label">Horario</span>
+    </ion-datetime>
+  </div>
 
-  <ion-button expand="block" fill="outline" (click)="addReminder()">Agregar</ion-button>
-  <ion-button expand="block" fill="outline" (click)="CancelReminder()">Cancelar</ion-button>
+  <div class="buttoms-container">
+    <ion-button class="agregar" (click)="addReminder()">Agregar</ion-button>
+    <ion-button class="cancelar" (click)="CancelReminder()">Cancelar</ion-button>
+  </div>  
+  
 </ion-content>
  

@@ -1,3 +1,59 @@
-*{
+* {
     font-size: 24px;
+}
+
+ion-content {
+    --background: none;
+    background-image: url('../../assets/fondo.png');
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 56px;    
+}
+
+ion-title { 
+    font-size: 22px;
+    padding: 0px;
+    margin: 5px;
+}
+
+ion-icon {
+    font-size: 30px;
+}
+
+ion-text {
+    margin-left: 12px;
+    margin-right: 12px;
+    font-size: 20px;
+}
+
+.encabezado {
+    padding-top: 45px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.buttons-section  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+}
+
+ion-button { 
+    --background: #F2D8B3;
+    --border-radius: 20px;
+    font-size: 16px;
+    width: 90%; 
+    height: 50px;
+    margin-top: 15px; 
+}
+
+ion-button:hover, ion-button:active {
+    --background: #E0B193;
+}
+
+.cerrar-sesion {
+    --background: #d0d0d4;
 }

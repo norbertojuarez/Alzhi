@@ -44,7 +44,7 @@ export class CardsComponent implements OnInit  {
         },
         {
           text: 'Eliminar',
-          cssClass: 'custom-alert-button', // Clase personalizada para los botones
+          cssClass: 'custom-alert-button-eliminar', // Clase personalizada para los botones
           handler: () => {
             this.userService.removeReminder(id)
               .then(() => console.log('Recordatorio eliminado'))

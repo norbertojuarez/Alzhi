@@ -1,3 +1,26 @@
-*{
+* {
     font-size: 24px;
+}
+
+ion-content {
+    --background: none;
+    background-image: url('../../assets/fondo.png');
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 56px;    
+}
+
+ion-title { 
+    font-size: 22px;
+    padding: 0px;
+    margin: 5px;
+}
+
+ion-icon {
+    font-size: 30px;
+}
+
+ion-fab-button {
+    --background: #E0B193;
 }

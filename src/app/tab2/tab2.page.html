@@ -1,16 +1,28 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Ajustes
-    </ion-title>
+    <ion-icon name="aperture-outline" slot="start"></ion-icon>
+    <ion-title>Ajustes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <ion-button (click)="onEdit()">Editar datos personales</ion-button>
+  <ion-row class="ion-justify-content-start encabezado">
+    <ion-text>Acá podés configurar tus datos y contacto de emergencia</ion-text> 
+  </ion-row>
+  <div class="buttons-section">
+   
+      <ion-button (click)="onEdit()">Editar mis datos
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+      </ion-button>
+  
  
-  <ion-button (click)="onLogout()">Cerrar sesión</ion-button>
+      <ion-button class="cerrar-sesion" (click)="onLogout()">Cerrar sesión
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      </ion-button>
+ 
+   
+   
+  </div>
 </ion-content>
 
 

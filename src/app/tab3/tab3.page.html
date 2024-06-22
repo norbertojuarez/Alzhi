@@ -1,12 +1,11 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-icon name="aperture-outline" slot="start"></ion-icon>
+    <ion-title>Recordatorios</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title >
-        Recordatorios
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true">
   <app-alarm  *ngIf="isAlarmActive; else showReminders" (CancelAlarm)="handleCancelAlarm()"> </app-alarm>
  
   <ng-template #showReminders> 
@@ -14,11 +13,10 @@
       <app-cards [reminder]="reminder"></app-cards>
     </ng-container>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="AgregarNuevoRecordatorio()">
-    <ion-fab-button>
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="AgregarNuevoRecordatorio()">
+      <ion-fab-button>
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </ng-template>
-
 </ion-content>

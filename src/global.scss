@@ -42,15 +42,18 @@
 * {
   --background:#FFFAF2;
   --color:#000100;
+  --border-color: #8e8e93;
   font-family: Varela Round;
+  --highlight-background: var(--ion-color-step-50); 
+  --highlight-border-radius: 48px; 
+  --fade-background-rgb: 255, 255, 255; 
+  --ion-text-color: var(--ion-color-step-700); 
 }
   
 ion-tab-button {
   --color-selected: #000100; /* Color del texto del tab seleccionado */
   --color: #8e8e93; /* Color del texto del tab no seleccionado */
 }
-
-
 
 ion-toolbar {
   padding-left: 10px;
@@ -62,27 +65,65 @@ ion-toolbar {
   font-weight: 400;
   font-style: normal;
 }
+
 .custom-alert {
-  --background: #B3E5F8; /* Fondo del alert */
-  --width: 90%; /* Ancho del alert */ 
-  --max-width: 90%; /* Ancho máximo del alert */
-  --color: #ff0000;
+  .alert-wrapper {
+    width: 90%; 
+    max-width: 90%; 
+  }
+
+  .alert-title {
+    color: #555558; 
+  }
+
+  .alert-message {
+    color: #555558; 
+  }
+  
+  .alert-button-group {    
+    button.custom-alert-button {
+      color:  #555558; 
+      font-size: 16px;
+    }
+
+    button.custom-alert-button-eliminar {
+      color:  #cc0000;
+      font-size: 16px;
+    }
+  }  
 }
 
-.custom-alert-header {
-  --color: #ff0000; /* Color del texto del header */
-  --font-size: 24px; /* Tamaño de fuente del header */
+ion-datetime {
+  --background: var(--ion-color-step-50); 
+  --background-rgb: 234, 244, 247;
+
+  width: 100%;
+  font-size: 20px;
+  border-radius: 16px;
+  box-shadow: rgba(var(--ion-color-sky-rgb), 0.5) 0px 10px 15px -3px; 
+
+  /* Estilos para los elementos de la rueda */
+  --wheel-highlight-background: var(--ion-color-sky-tint); /* Fondo resaltado */
+  --wheel-highlight-border-radius: 48px; /* Radio de borde del fondo resaltado */
+  --wheel-fade-background-rgb: 234, 244, 247; /* Fondo desvanecido */
 }
 
-.custom-alert-message {
-  --color: #000; /* Color del texto del mensaje */
-  --font-size: 18px; /* Tamaño de fuente del mensaje */
-  --color: #ff0000;
+ion-datetime::part(wheel-item) {
+  color: var(--ion-color-step-200); /* Color de texto normal */
 }
 
-.custom-alert-button {
-  --color: #ff0000; /* Color del texto del botón */
-  --background: #fff; /* Fondo del botón */
+ion-datetime::part(wheel-item active) {
+  color: var(--ion-color-step-50); /* Color de texto activo */
 }
 
+ion-datetime::part(calendar-day today) {
+  background: none;
+  border-color: var(--ion-color-step-400);
+  color: var(--ion-color-step-700);
+}
 
+ion-datetime::part(calendar-day):focus {
+  background: var(--ion-color-step-300);
+  border-color: var(--ion-color-step-300);
+  box-shadow: none;
+}
